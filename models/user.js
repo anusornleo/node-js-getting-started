@@ -26,6 +26,11 @@ module.exports.getUserByUsername = (username, callback) => {
   User.findOne(query, callback);
 };
 
+module.exports.getUserByEmail = (email, callback) => {
+  var query = { email: email };
+  User.findOne(query, callback);
+};
+
 module.exports.comparePassword = (candidatePassword, hash, callback) => {
   console.log(candidatePassword);
   bcrypt.compare(candidatePassword, hash, (err, result) => {
@@ -38,9 +43,10 @@ module.exports.comparePassword = (candidatePassword, hash, callback) => {
 
 module.exports.createUser = (newUser, callback) => {
   bcrypt.genSalt(saltRounds, function(err, salt) {
-    bcrypt.hash(newUser.password, salt, function(err, hash) {
+    bcrypt.hash(newUser.username, salt, function(err, hash) {
       newUser.password = hash;
       newUser.save();
+      callback(null, newUser);
     });
   });
 };

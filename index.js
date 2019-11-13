@@ -1,15 +1,3 @@
-// const express = require("express");
-// const path = require("path");
-// const PORT = process.env.PORT || 5000;
-
-// app.use(express.static(path.join(__dirname, "public")));
-// app.set("views", path.join(__dirname, "views"));
-// app.set("view engine", "ejs");
-// app.get("/", (req, res) => res.send({ data: "fuck" }));
-// app.listen(PORT, () => console.log(`Listening on ${PORT}`));
-
-// module.exports = app;
-
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -39,14 +27,6 @@ app.listen(PORT, () => {
 
 app.use(cors())
 
-// const corsConfig = function(req, res, next) {
-//   res.header('Access-Control-Allow-Origin', 'http://localhost:8000')
-//   res.header('Access-Control-Allow-Credentials', true)
-//   res.header('Access-Control-Allow-Methods', 'GET,HEAD,OPTIONS,POST,PUT')
-//   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization')
-//   next()
-// }
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -72,8 +52,6 @@ app.use((req,res,next)=>{
 app.use(passport.initialize())
 app.use(passport.session())
 
-// app.use(expressValidator)
-
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
@@ -97,8 +75,5 @@ app.use(function(req, res, next) {
   res.locals.messages = req.flash();
   next();
 });
-
-
-// app.use(corsConfig);
 
 module.exports = app;

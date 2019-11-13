@@ -22,12 +22,35 @@ router.get("/register", function(req, res, next) {
 
 router.post("/register", function(req, res, next) {
   const body = req.body;
-  const user = new User(body);
-  User.createUser(user, (err, user) => {
-    if (err) throw err;
-    // res.render("login", { title: "Login" });
-    res.redirect("/login");
-    // res.send({ data: "regis complete", message: req.flash("error") });
+  const newUser = new User(body);
+  User.findOne({ username: newUser.username }, (err, user) => {
+ 
+    if (err) {
+      console.log(err);
+    }
+    if (user) {
+      res.send({ data: "regis", message: "Username has exists" });
+    } else {
+      User.findOne({ email: newUser.email }, (err, user) => {
+        if (err) {
+          res.send(err);
+        }
+        if (user) {
+          res.send({ data: "regis", message: "E-mail has exists" });
+        } else {
+          // res.send(newUser)
+ 
+          User.createUser(newUser, (err, user) => {
+            if (err) {
+              res.send(err);
+            }
+            else{
+              res.send({ data: "login"});
+            }
+          });
+        }
+      });
+    }
   });
 });
 
